@@ -1,0 +1,27 @@
+﻿<Window x:Class="CourseProject.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CourseProject"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="300"
+        WindowStartupLocation="CenterScreen"
+        >
+    <Grid>
+        <Menu Height="20" VerticalAlignment="Top" HorizontalContentAlignment="Left">
+
+            <MenuItem Header="Файл">
+
+            </MenuItem>
+
+            <MenuItem Header="Настройки">
+
+                <MenuItem x:Name="menuSettingsDB" Header="Подключение к БД" Click="menuSettingsDB_Click">
+
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        <Button x:Name="buttonShowWindowTables" Content="Просмотр таблиц" VerticalAlignment="Top" Margin="30, 30, 30, 0" FontSize="16" Click="buttonShowWindowTables_Click"/>
+    </Grid>
+</Window>
