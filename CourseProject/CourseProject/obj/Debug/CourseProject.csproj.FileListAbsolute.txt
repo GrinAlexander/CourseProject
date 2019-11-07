@@ -34,3 +34,5 @@ C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\CourseProject\obj\De
 C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\CourseProject\obj\Debug\CourseProject.csproj.GenerateResource.cache
 C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\CourseProject\obj\Debug\CourseProject.exe
 C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\CourseProject\obj\Debug\CourseProject.pdb
+C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\CourseProject\obj\Debug\InsertStudent.g.cs
+C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\CourseProject\obj\Debug\InsertStudent.baml

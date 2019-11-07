@@ -9,12 +9,14 @@
         WindowStartupLocation="CenterScreen"
         >
     <Grid>
-        <Label x:Name="labelTableName" Content="Текущая: " HorizontalAlignment="Left" Margin="150,30,0,0" VerticalAlignment="Top" FontSize="16" Padding="0"/>
-        <DataGrid x:Name="dataGridMain" Margin="150,55,30,70" VerticalAlignment="Stretch" AutoGenerateColumns="True"/>
         
-        <Label Content="Таблицы:" HorizontalAlignment="Left" Margin="30,30,0,0" VerticalAlignment="Top" FontSize="16" Padding="0"/>
-        <ComboBox x:Name="comboBoxMain" Margin="30, 55, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="90" SelectionChanged="comboBoxMain_SelectionChanged">
+        <Image x:Name="buttonBack" Source="back.png" VerticalAlignment="Top" HorizontalAlignment="Left" Height="30" Width="30" MouseDown="buttonBack_MouseDown"/>
+        <Label x:Name="labelTableName" Content="Текущая: " HorizontalAlignment="Left" Margin="150,40,0,0" VerticalAlignment="Top" FontSize="16" Padding="0"/>
+        <DataGrid x:Name="dataGridMain" Margin="150,65,30,70" VerticalAlignment="Stretch" AutoGenerateColumns="True"/>
+        
+        <Label Content="Таблицы:" HorizontalAlignment="Left" Margin="30,40,0,0" VerticalAlignment="Top" FontSize="16" Padding="0"/>
+        <ComboBox x:Name="comboBoxMain" Margin="30, 65, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="90" SelectionChanged="comboBoxMain_SelectionChanged">
         </ComboBox>
-        <Button x:Name="buttonUpdateDB" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="150, 260, 30, 30" Content="Обновить" FontSize="14" Click="buttonUpdateDB_Click"/> 
+        <Button x:Name="buttonUpdateDB" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="150, 260, 30, 30" Content="Обновить" FontSize="14" Click="buttonUpdateDB_Click" MinWidth="100"/>
     </Grid>
 </Window>

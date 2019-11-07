@@ -61,6 +61,14 @@ namespace CourseProject
         private void buttonUpdateDB_Click(object sender, RoutedEventArgs e)
         {
             dataClasses.SubmitChanges();
+            MessageBox.Show("Таблица успешно обновлена!");
+        }
+
+        private void buttonBack_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.Close();
         }
     }
 }

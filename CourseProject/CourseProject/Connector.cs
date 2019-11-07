@@ -90,5 +90,26 @@ namespace CourseProject
                 }
             }
         }
+
+        public void InsertIntoStudents(string group, string surname, string name, string patronymic)
+        {
+            using (SqlConnection sqlConnection = new SqlConnection(this.connectionString))
+            {
+                try
+                {
+                    sqlConnection.Open();
+                    string query = $"INSERT INTO Students VALUES (N'{group}', N'{surname}', N'{name}', N'{patronymic}')";
+                    SqlCommand command = new SqlCommand(query, sqlConnection);
+                    command.ExecuteNonQuery();
+                    using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(command)) { }
+                    sqlConnection.Close();
+                }
+                catch
+                {
+
+                }
+                
+            }
+        }
     }
 }

@@ -22,6 +22,11 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <Button x:Name="buttonShowWindowTables" Content="Просмотр таблиц" VerticalAlignment="Top" Margin="30, 30, 30, 0" FontSize="16" Click="buttonShowWindowTables_Click"/>
+        
+        <Button x:Name="buttonShowWindowTables" Content="Просмотр таблиц" VerticalAlignment="Top" Margin="30, 40, 30, 30" FontSize="16" Click="buttonShowWindowTables_Click"/>
+        <Button x:Name="buttonShowInsertERBook" Content="Добавить запись в журнал" VerticalAlignment="Top" Margin="30, 110, 30, 0" FontSize="16" Click="buttonShowInsertERBook_Click"/>
+        <Button x:Name="buttonShowInsertTeacher" Content="Добавить учителя" VerticalAlignment="Top" Margin="30, 180, 30, 0" FontSize="16" Click="buttonShowInsertTeacher_Click"/>
+        <Button x:Name="buttonShowInsertStudent" Content="Добавить студента" VerticalAlignment="Top" Margin="30, 250, 30, 0" FontSize="16" Click="buttonShowInsertStudent_Click"/>
+    
     </Grid>
 </Window>

@@ -35,7 +35,23 @@ namespace CourseProject
         {
             Tables tables = new Tables();
             tables.Show();
+            this.Close();
+        }
 
+        private void buttonShowInsertStudent_Click(object sender, RoutedEventArgs e)
+        {
+            InsertStudent insertStudent = new InsertStudent();
+            insertStudent.Show();
+            this.Close();
+        }
+
+        private void buttonShowInsertTeacher_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void buttonShowInsertERBook_Click(object sender, RoutedEventArgs e)
+        {
 
         }
     }
