@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CourseProject
+﻿namespace CourseProject
 {
     class Checker
     {
@@ -27,6 +21,25 @@ namespace CourseProject
                 }
             }
             return true;
+        }
+
+        public bool IsCorrectMark(string input)
+        {
+            input = input.ToLower();
+            if (input.Equals("н"))
+            {
+                return true;
+            }
+
+            for (int i = 1; i <= 10; i++)
+            {
+                if (input == i.ToString())
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

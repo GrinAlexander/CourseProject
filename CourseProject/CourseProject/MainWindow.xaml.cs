@@ -47,12 +47,16 @@ namespace CourseProject
 
         private void buttonShowInsertTeacher_Click(object sender, RoutedEventArgs e)
         {
-
+            InsertTeacher insertTeacher = new InsertTeacher();
+            insertTeacher.Show();
+            this.Close();
         }
 
         private void buttonShowInsertERBook_Click(object sender, RoutedEventArgs e)
         {
-
+            InsertERBook insertERBook = new InsertERBook();
+            insertERBook.Show();
+            this.Close();
         }
     }
 }

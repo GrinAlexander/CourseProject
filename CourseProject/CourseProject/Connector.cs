@@ -111,5 +111,47 @@ namespace CourseProject
                 
             }
         }
+
+        public void InsertIntoTeachers(string subject, string surname, string name, string patronymic)
+        {
+            using (SqlConnection sqlConnection = new SqlConnection(this.connectionString))
+            {
+                try
+                {
+                    sqlConnection.Open();
+                    string query = $"INSERT INTO Teachers VALUES (N'{subject}', N'{surname}', N'{name}', N'{patronymic}')";
+                    SqlCommand command = new SqlCommand(query, sqlConnection);
+                    command.ExecuteNonQuery();
+                    using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(command)) { }
+                    sqlConnection.Close();
+                }
+                catch
+                {
+
+                }
+                
+            }
+        }
+
+        public void InsertIntoERBook(DateTime? dateTime, string topic, string mark, int id_t, int id_s)
+        {
+            using (SqlConnection sqlConnection = new SqlConnection(this.connectionString))
+            {
+                try
+                {
+                    sqlConnection.Open();
+                    string query = $"INSERT INTO RegisterBook VALUES ('{dateTime}', N'{topic}', N'{mark}', {id_t}, {id_s})";
+                    SqlCommand command = new SqlCommand(query, sqlConnection);
+                    command.ExecuteNonQuery();
+                    using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(command)) { }
+                    sqlConnection.Close();
+                }
+                catch
+                {
+
+                }
+                
+            }
+        }
     }
 }

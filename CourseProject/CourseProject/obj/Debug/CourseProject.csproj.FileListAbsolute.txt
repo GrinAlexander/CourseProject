@@ -36,3 +36,7 @@ C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\CourseProject\obj\De
 C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\CourseProject\obj\Debug\CourseProject.pdb
 C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\CourseProject\obj\Debug\InsertStudent.g.cs
 C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\CourseProject\obj\Debug\InsertStudent.baml
+C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\CourseProject\obj\Debug\InsertERBook.g.cs
+C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\CourseProject\obj\Debug\InsertTeacher.g.cs
+C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\CourseProject\obj\Debug\InsertERBook.baml
+C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\CourseProject\obj\Debug\InsertTeacher.baml
