@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Windows.Controls;
 using System.Data;
 using System.Collections.Generic;
+using System.Windows;
 
 namespace CourseProject
 {
@@ -33,7 +34,7 @@ namespace CourseProject
                     catch
                     {
                         result = false;
-                    }   
+                    }
                 }
             }
             );
@@ -48,7 +49,7 @@ namespace CourseProject
             {
                 try
                 {
-                    sqlConnection.OpenAsync();
+                    sqlConnection.Open();
                     string query = $"SELECT * FROM {tableName}";
                     SqlCommand command = new SqlCommand(query, sqlConnection);
                     command.ExecuteNonQuery();
@@ -56,7 +57,6 @@ namespace CourseProject
                     SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(command);
                     datatable = new DataTable();
                     sqlDataAdapter.Fill(datatable);
-                    DataTable t = sqlConnection.GetSchema("Tables");
                     sqlConnection.Close();
                     return datatable;
                 }
@@ -88,7 +88,7 @@ namespace CourseProject
                 {
                     return new List<string>();
                 }
-            }          
+            }
         }
     }
 }

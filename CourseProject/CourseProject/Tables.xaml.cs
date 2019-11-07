@@ -20,15 +20,17 @@ namespace CourseProject
     /// </summary>
     public partial class Tables : Window
     {
+        DataClassesDataContext dataClasses = new DataClassesDataContext(
+            Properties.Settings.Default.ERBookConnectionString);
+
         public Tables()
         {
-            InitializeComponent(); 
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
+            InitializeComponent();
             FillComboBox();
-            comboBoxMain.SelectedIndex = 0;
+            if (dataClasses.DatabaseExists())
+            {
+                this.comboBoxMain.SelectedIndex = 0;
+            }
         }
 
         private void FillComboBox()
@@ -38,16 +40,27 @@ namespace CourseProject
             this.comboBoxMain.ItemsSource = tables;
         }
 
-        private void FillDataGridByTableName(string tableName)
+        private void comboBoxMain_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Connector connector = new Connector();
-            this.dataGridMain.ItemsSource = connector.GetDataTable(tableName).DefaultView;
+            string tableName = (sender as ComboBox).SelectedItem as string;
+            if (tableName.Equals("Students"))
+            {
+                this.dataGridMain.ItemsSource = dataClasses.Students;
+            }
+            else if (tableName.Equals("Teachers"))
+            {
+                this.dataGridMain.ItemsSource = dataClasses.Teachers;
+            }
+            else if (tableName.Equals("RegisterBook"))
+            {
+                this.dataGridMain.ItemsSource = dataClasses.RegisterBook;
+            }
             labelTableName.Content = $"Выбрана таблица \"{tableName}\":";
         }
 
-        private void comboBoxMain_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void buttonUpdateDB_Click(object sender, RoutedEventArgs e)
         {
-            FillDataGridByTableName((sender as ComboBox).SelectedItem as string);
+            dataClasses.SubmitChanges();
         }
     }
 }
