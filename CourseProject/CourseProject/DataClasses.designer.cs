@@ -42,7 +42,7 @@ namespace CourseProject
     #endregion
 		
 		public DataClassesDataContext() : 
-				base(global::CourseProject.Properties.Settings.Default.ERBookConnectionString, mappingSource)
+				base(CurrentDB.ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
