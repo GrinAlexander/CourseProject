@@ -1,0 +1,19 @@
+﻿<Window x:Class="CourseProject.Inserts.InsertOrder"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CourseProject"
+        mc:Ignorable="d"
+        Title="InsertOrder" Height="350" Width="300"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Label Content="Деталь: "  HorizontalAlignment="Left" Margin="30,30,0,0" VerticalAlignment="Top" FontSize="16" Padding="0"/>
+        <ComboBox x:Name="comboBoxDetail" Margin="30,50,30,0" VerticalAlignment="Top" FontSize="14" IsReadOnly="True"/>
+
+        <Label Content="Количество: "  HorizontalAlignment="Left" Margin="30,80,0,0" VerticalAlignment="Top" FontSize="16" Padding="0"/>
+        <TextBox x:Name="textBoxCount" Margin="30,100,30,0" VerticalAlignment="Top" FontSize="14" MaxLength="5" PreviewTextInput="NumberValidationTextBox"/>
+
+        <Button x:Name="buttonInsert" Content="Добавить" VerticalAlignment="Bottom" Margin="30, 0, 30, 30" FontSize="18" Click="buttonInsert_Click"/>
+    </Grid>
+</Window>
