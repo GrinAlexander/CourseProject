@@ -2,6 +2,16 @@ CREATE DATABASE AutoParts --создание БД
 
 USE AutoParts
 
+CREATE TABLE Авто
+(
+	id int IDENTITY(1,1) PRIMARY KEY,
+	марка varchar(100) NOT NULL,
+	модель varchar(100) NOT NULL,
+	кузов varchar(30) NOT NULL,
+	год int NOT NULL,
+	объём float NOT NULL
+)
+
 CREATE TABLE Склад --создание таблицы "Склад"
 (
 	id int IDENTITY(1,1) PRIMARY KEY,
@@ -13,11 +23,14 @@ CREATE TABLE Деталь --создание таблицы "Деталь"
 (
 	id int IDENTITY(1,1) PRIMARY KEY,
 	id_склада int NOT NULL,
+	id_авто int NOT NULL,
 	название varchar(100) NOT NULL,
+	артикул varchar(100) NOT NULL,
 	производитель varchar(50) NOT NULL,
 	категория varchar(30) NOT NULL,
 	цена float NOT NULL,
-	FOREIGN KEY (id_склада) REFERENCES Склад(id)
+	FOREIGN KEY (id_склада) REFERENCES Склад(id),
+	FOREIGN KEY (id_авто) REFERENCES Авто(id)
 )
 
 CREATE TABLE Брак --создание таблицы "Брак"
@@ -63,15 +76,17 @@ CREATE TABLE Продажа --создание таблицы "Продажа"
 )
 
 --заполнение таблиц
+
+INSERT INTO Авто VALUES ('Mazda', 'Xedos 9', 'седан',2001,2.5), ('Mercedes-Benz', 'W212', 'седан',2011,5.5),('Fort', 'Transit', 'минивэн',2001,2.5),('Jaguar', 'Type-S', 'седан',2000,3.0),('Mazda', 'Xedos 9', 'седан',1997,2.0)
 INSERT INTO Склад VALUES (N'Матусевича 113', 1500), (N'Домбровская 15', 250), (N'Казинца 11а', 300), (N'Гурского 3а', 300), (N'Железнодорожная 27', 500)
 
 INSERT INTO Деталь VALUES 
-(1, 'Фильтр масляный A210115', 'DENCKERMANN', N'ТО и фильтра', 5.20),
-(2, 'Фильтр воздушный CMZ11431', 'COMLINE', N'ТО и фильтра', 3.29),
-(3, 'Маховик CF-509', 'JAPANPARTS', N'Коробка передач', 38.04),
-(4, 'Выхлопная труба CT829', 'CONTITECH', N'Двигатель и выхлоп', 28.40),
-(5, 'Тормозной суппорт ADC1246V', 'COMLINE', N'Тормозная система', 69.62),
-(1, 'Аккумулятор 6СТ60А1Е', 'Ista Power Optimal', N'Шины и аккумуляторы', 86.90)
+(1,1, 'Фильтр масляный', 'A210115', 'DENCKERMANN', N'ТО и фильтра', 5.20),
+(2,1, 'Фильтр воздушный', 'CMZ11431', 'COMLINE', N'ТО и фильтра', 3.29),
+(3,2, 'Маховик', 'CF-509', 'JAPANPARTS', N'Коробка передач', 38.04),
+(4,3, 'Выхлопная труба', 'CT829', 'CONTITECH', N'Двигатель и выхлоп', 28.40),
+(5,4, 'Тормозной суппорт', 'ADC1246V', 'COMLINE', N'Тормозная система', 69.62),
+(1,5, 'Аккумулятор', '6СТ60А1Е', 'Ista Power Optimal', N'Шины и аккумуляторы', 86.90)
 
 INSERT INTO Брак VALUES (5, 'Трещина на тормозном диске'), (4, 'Виден корд ремня ГРМ')
 
@@ -85,17 +100,18 @@ INSERT INTO Продажа VALUES (1, '26/9/2018'), (2, '26/9/2019'), (3, '25/9/2019'),
 
 Go
 CREATE VIEW ДетальView AS
-	SELECT Деталь.id, Склад.адрес, Деталь.название, Деталь.категория, Деталь.цена FROM dbo.Деталь
+	SELECT Деталь.id, Авто.модель, Склад.адрес, Деталь.название, Деталь.артикул, Деталь.категория, Деталь.цена FROM dbo.Деталь
 	JOIN Склад ON Склад.id = Деталь.id_склада
+	JOIN Авто ON Авто.id = Деталь.id_авто
 
 Go
 CREATE VIEW ЗаказView AS
-	SELECT Заказ.id, Деталь.название, Заказ.количество, Заказ.сумма FROM Заказ
+	SELECT Заказ.id, Деталь.артикул, Заказ.количество, Заказ.сумма FROM Заказ
 	JOIN Деталь ON Деталь.id = Заказ.id_детали
 
 Go
 CREATE VIEW ЗаявкаView AS
-	SELECT Заявка.id, Деталь.название, Заявка.количество, Заявка.сумма FROM Заявка
+	SELECT Заявка.id, Деталь.артикул, Заявка.количество, Заявка.сумма FROM Заявка
 	JOIN Деталь ON Деталь.id = Заявка.id_детали
 
 Go
@@ -111,3 +127,20 @@ CREATE VIEW ПродажаView AS
 Go
 CREATE VIEW СкладView AS
 	SELECT * FROM Склад
+
+GO
+CREATE VIEW АвтоView AS
+	SELECT * FROM Авто
+
+GO
+CREATE VIEW ДетальНаСкладеView AS
+	SELECT Склад.id, Деталь.название, Деталь.артикул, Деталь.категория, Деталь.цена, Авто.модель  FROM Деталь
+	JOIN Склад ON Склад.id = Деталь.id_склада
+	JOIN Авто ON Авто.id = Деталь.id_авто
+
+GO
+CREATE VIEW SearchView AS
+	SELECT Деталь.id, Авто.марка, Авто.модель, Деталь.артикул, Деталь.категория, Деталь.название, Деталь.производитель FROM Деталь
+	JOIN Авто ON Авто.id = Деталь.id_авто
+
+SELECT * FROM SearchView

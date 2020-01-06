@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-E:\Курсовые\Курсовой_Гринь\CourseProject\CourseProject\obj\Debug\
+C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\obj\Debug\
 CourseProject
 none
 false
 DEBUG;TRACE
-E:\Курсовые\Курсовой_Гринь\CourseProject\CourseProject\App.xaml
-1176189756
+C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\App.xaml
+9-877915904
 
-17-459015982
+14-872732633
 14-1075893376
-DBSettings.xaml;Inserts\InsertDefect.xaml;Inserts\InsertProvider.xaml;Inserts\InsertRequest.xaml;Inserts\InsertSell.xaml;Inserts\InsertStorage.xaml;Inserts\WindowInserts.xaml;Inserts\InsertDetail.xaml;Inserts\InsertOrder.xaml;MainWindow.xaml;Tables.xaml;
+Inserts\InsertAuto.xaml;Inserts\InsertDefect.xaml;Inserts\InsertProvider.xaml;Inserts\InsertRequest.xaml;Inserts\InsertSell.xaml;Inserts\InsertStorage.xaml;Inserts\InsertDetail.xaml;Inserts\InsertOrder.xaml;MainWindow.xaml;
 
 False
 

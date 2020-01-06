@@ -30,7 +30,7 @@ namespace CourseProject.Inserts
             try
             {
                 Connector connector = new Connector();
-                connector.InsertIntoStorage(this.textBoxAdress.Text, Convert.ToInt32(this.textBoxCapacity.Text));
+                connector.InsertStorage(this.textBoxAdress.Text, Convert.ToInt32(this.textBoxCapacity.Text));
                 MessageBox.Show("Запись успешно добавлена!");
             }
             catch (Exception ex)

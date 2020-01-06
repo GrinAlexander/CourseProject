@@ -32,7 +32,7 @@ namespace CourseProject.Inserts
             try
             {
                 Connector connector = new Connector();
-                connector.InsertIntoProvider(Convert.ToInt32(comboBoxOrder.SelectedValue), this.textBoxName.Text);
+                connector.InsertProvider(Convert.ToInt32(comboBoxOrder.SelectedValue), this.textBoxName.Text);
                 MessageBox.Show("Запись успешно добавлена!");
             }
             catch (Exception ex)
@@ -45,7 +45,7 @@ namespace CourseProject.Inserts
         public void FillComboBoxes()
         {
             Connector connector = new Connector();
-            DataTable dt = connector.GetComboBoxData("Заказ");
+            DataTable dt = connector.GetTable("Заказ");
 
             comboBoxOrder.ItemsSource = dt.DefaultView;
             comboBoxOrder.DisplayMemberPath = "id";

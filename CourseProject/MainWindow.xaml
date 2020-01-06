@@ -5,26 +5,43 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CourseProject"
         mc:Ignorable="d"
-        Title="Меню" Height="350" Width="300"
+        Title="Меню" Height="500" Width="1000"
         WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded"
         >
     <Grid>
         <Menu Height="20" VerticalAlignment="Top" HorizontalContentAlignment="Left">
-
             <MenuItem Header="Файл">
-
-            </MenuItem>
-
-            <MenuItem Header="Настройки">
-
-                <MenuItem x:Name="menuSettingsDB" Header="Подключение к БД" Click="menuSettingsDB_Click">
-
-                </MenuItem>
             </MenuItem>
         </Menu>
-        
-        <Button x:Name="buttonShowWindowTables" Content="Просмотр таблиц" VerticalAlignment="Top" Margin="30, 40, 30, 30" FontSize="16" Click="buttonShowWindowTables_Click"/>
-        <Button x:Name="buttonShowInserts" Content="Добавить запись" VerticalAlignment="Top" Margin="30, 110, 30, 0" FontSize="16" Click="buttonShowInserts_Click"/>
+        <TabControl x:Name="tabControl" TabStripPlacement="Right" Margin="0, 20, 0, 0" SelectionChanged="TabControl_SelectionChanged">
+            <TabItem Header="Наличие" FontSize="18" IsSelected="True">
+                <Grid>
+                    <Label Content="Склад" Margin="30, 30, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                    <DataGrid x:Name="dataGridStorage" Margin="30, 60, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="400" Height="200" FontSize="14" ColumnWidth="*" BorderThickness="0, 1, 0, 0" Background="Transparent" HorizontalScrollBarVisibility="Auto" SelectionChanged="dataGridStorage_SelectionChanged" IsReadOnly="True"/>
+                    <Button x:Name="buttonAddStorage" Margin="370, 30, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="0" Background="Transparent" Content="+" FontWeight="Bold" FontSize="22" Height="30" Width="30" Click="buttonAddStorage_Click"/>
+                    <Button x:Name="buttonRemoveStorage" Margin="400, 30, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="0" Background="Transparent" Content="-" FontWeight="Bold" FontSize="22" Height="30" Width="30" Click="buttonRemoveStorage_Click" IsEnabled="False"/>
 
+                    <Label Content="Детали" Margin="460, 30, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                    <DataGrid x:Name="dataGridDetails" Margin="460, 60, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="400" Height="400" FontSize="14" ColumnWidth="*" BorderThickness="0, 1, 0, 0" Background="Transparent" HorizontalScrollBarVisibility="Auto" IsReadOnly="True" SelectionChanged="dataGridDetails_SelectionChanged"/>
+                    <Button x:Name="buttonAddDetail" Margin="800, 30, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="0" Background="Transparent" Content="+" FontWeight="Bold" FontSize="22" Height="30" Width="30" Click="buttonAddDetail_Click"/>
+                    <Button x:Name="buttonRemoveDetail" Margin="830, 30, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="0" Background="Transparent" Content="-" FontWeight="Bold" FontSize="22" Height="30" Width="30" Click="buttonRemoveDetail_Click" IsEnabled="False"/>
+                </Grid>
+            </TabItem>
+            
+            <TabItem Header="Поиск" FontSize="18">
+                <Grid>
+                    <TextBox x:Name="textBoxSearch" Margin="30" VerticalAlignment="Top" HorizontalAlignment="Stretch" FontSize="22" TextChanged="textBoxSearch_TextChanged"/>
+                    <Button x:Name="buttonSearch" Content="🔎" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0, 30, 30, 0" FontSize="20" Click="buttonSearch_Click"/>
+                    <DataGrid x:Name="dataGridSearch" Margin="30, 90, 30, 30" BorderThickness="0, 1, 0, 0" Background="Transparent" ColumnWidth="*"/>
+                </Grid>
+            </TabItem>
+            
+            <TabItem Header="Поставки" FontSize="18">
+                <Grid>
+                    
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

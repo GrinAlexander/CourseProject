@@ -1,46 +1,15 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Data.SqlClient;
-using System.Windows.Controls;
 using System.Data;
 using System.Collections.Generic;
-using System.Windows;
 
 namespace CourseProject
 {
     class Connector
     {
-        public static string ConnectionString { get; set; } = "Data Source=.\\SQLEXPRESS;Initial Catalog=AutoParts;Integrated Security=True";
+        public static string ConnectionString { get; set; } = Properties.Settings.Default.ConnectionString;
 
         public Connector() { }
-
-        public void CheckConnection(string cs)
-        {
-            using (SqlConnection sqlConnection = new SqlConnection(cs))
-            {
-                sqlConnection.OpenAsync();
-                sqlConnection.Close();
-            }
-        }
-
-        public DataTable GetDataView(string tN)
-        {
-            string tableName = tN;
-            using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
-            {
-                sqlConnection.Open();
-                string query = $"SELECT * FROM {tableName}View";
-                SqlCommand command = new SqlCommand(query, sqlConnection);
-                command.ExecuteNonQuery();
-                DataTable datatable = new DataTable();
-                using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(command))
-                {
-                    sqlDataAdapter.Fill(datatable);
-                }
-                sqlConnection.Close();
-                return datatable;
-            }
-        }
 
         public List<string> GetListTables()
         {
@@ -59,115 +28,122 @@ namespace CourseProject
             }
         }
 
-        public DataTable GetComboBoxData(string tN)
+        public void InsertStorage(string adress, int capacity)
         {
-            string tableName = tN;
+            string query = $"INSERT INTO Склад VALUES (N'{adress}', {capacity})";
+            Insert(query);
+        }
+
+        public void InsertDetail(int id_s, string name, string articul, string prod, string category, float price)
+        {
+            string query = $"INSERT INTO Деталь VALUES ({id_s},  N'{name}', N'{articul}',  N'{prod}',  N'{category}', {price.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)})";
+            Insert(query);
+        }
+
+        public void InsertDefect(int id_d, string description)
+        {
+            string query = $"INSERT INTO Брак VALUES ({id_d}, N'{description}')";
+            Insert(query);
+        }
+
+        public void InsertOrder(int id_d, int count)
+        {
+            string query = $"INSERT INTO Заказ (id_детали, количество) VALUES ({id_d}, {count})";
+            Insert(query);
+        }
+
+        public void InsertProvider(int id_o, string name)
+        {
+            string query = $"INSERT INTO Поставщик VALUES ({id_o}, N'{name}')";
+            Insert(query);
+        }
+
+        public void InsertRequest(int id_d, int amount)
+        {
+            string query = $"INSERT INTO Заявка (id_детали, количество) VALUES ({id_d}, {amount})";
+            Insert(query);
+        }
+
+        public void InsertSell(int id_o, DateTime? date)
+        {
+            string query = $"INSERT INTO Продажа VALUES ({id_o}, N'{date}')";
+            Insert(query);
+        }
+
+        public void InsertAuto(string name, string model, string type, int year, float amount)
+        {
+            string query = $"INSERT INTO Авто VALUES ('{name}', '{model}', '{type}', {year}, {amount})";
+            Insert(query);
+        }
+
+        private void Insert(string query)
+        {
+            using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
+            {
+                sqlConnection.Open();
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+                command.ExecuteNonQuery();
+                using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(command)) { }
+                sqlConnection.Close();
+            }
+        }
+
+        public void Delete(string tN, string fN, int id)
+        {
+            using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
+            {
+                sqlConnection.Open();
+                string query = $"DELETE FROM {tN} WHERE {fN} = {id}";
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+                command.ExecuteNonQuery();
+                using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(command)) { }
+                sqlConnection.Close();
+            }
+        }
+
+        public DataTable GetDataTableByQuery(string query)
+        {
             DataTable datatable = new DataTable();
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {
                 sqlConnection.Open();
-                string query = $"SELECT * FROM {tableName}";
                 SqlCommand cmd = new SqlCommand(query, sqlConnection);
-                using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
-                {
-                    adapter.Fill(datatable);
-                }
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                adapter.Fill(datatable);
                 cmd.Dispose();
                 sqlConnection.Close();
                 return datatable;
             }
         }
 
-        public void InsertIntoStorage(string adress, int capacity)
+        public DataTable GetTable(string tN)
         {
-            using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
-            {
-
-                sqlConnection.Open();
-                string query = $"INSERT INTO Склад VALUES (N'{adress}', {capacity})";
-                SqlCommand command = new SqlCommand(query, sqlConnection);
-                command.ExecuteNonQuery();
-                using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(command)) { }
-                sqlConnection.Close();
-            }
+            string tableName = tN;
+            string query = $"SELECT * FROM {tableName}";
+            return GetDataTableByQuery(query);
         }
 
-        public void InsertIntoDetail(int id_s, string name, string prod, string category, float price)
+        public List<string> GetListOfColumns(string tN)
         {
+            string tableName = tN;
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {
                 sqlConnection.Open();
-                string query = $"INSERT INTO Деталь VALUES ({id_s},  N'{name}',  N'{prod}',  N'{category}', {price})";
+                string query = $"SELECT * FROM {tableName}View";
                 SqlCommand command = new SqlCommand(query, sqlConnection);
                 command.ExecuteNonQuery();
-                using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(command)) { }
-                sqlConnection.Close();
-            }
-        }
 
-        public void InsertIntoDefect(int id_d, string description)
-        {
-            using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
-            {
-                sqlConnection.Open();
-                string query = $"INSERT INTO Брак VALUES ({id_d}, N'{description}')";
-                SqlCommand command = new SqlCommand(query, sqlConnection);
-                command.ExecuteNonQuery();
-                using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(command)) { }
-                sqlConnection.Close();
-            }
-        }
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(command);
+                DataTable datatable = new DataTable();
+                sqlDataAdapter.Fill(datatable);
 
-        public void InsertIntoOrder(int id_d, int count)
-        {
-            using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
-            {
-
-                sqlConnection.Open();
-                string query = $"INSERT INTO Заказ (id_детали, количество) VALUES ({id_d}, {count})";
-                SqlCommand command = new SqlCommand(query, sqlConnection);
-                command.ExecuteNonQuery();
-                using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(command)) { }
+                List<string> columns = new List<string>();
+                foreach (DataColumn column in datatable.Columns)
+                {
+                    columns.Add(column.ColumnName);
+                }
                 sqlConnection.Close();
-            }
-        }
-
-        public void InsertIntoProvider(int id_o, string name)
-        {
-            using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
-            {
-                sqlConnection.Open();
-                string query = $"INSERT INTO Поставщик VALUES ({id_o}, N'{name}')";
-                SqlCommand command = new SqlCommand(query, sqlConnection);
-                command.ExecuteNonQuery();
-                using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(command)) { }
-                sqlConnection.Close();
-            }
-        }
-
-        public void InsertIntoRequest(int id_d, int amount)
-        {
-            using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
-            {
-                sqlConnection.Open();
-                string query = $"INSERT INTO Заявка (id_детали, количество) VALUES ({id_d}, {amount})";
-                SqlCommand command = new SqlCommand(query, sqlConnection);
-                command.ExecuteNonQuery();
-                using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(command)) { }
-                sqlConnection.Close();
-            }
-        }
-
-        public void InsertIntoSell(int id_o, DateTime? date)
-        {
-            using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
-            {
-                sqlConnection.Open();
-                string query = $"INSERT INTO Продажа VALUES ({id_o}, N'{date}')";
-                SqlCommand command = new SqlCommand(query, sqlConnection);
-                command.ExecuteNonQuery();
-                using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(command)) { }
-                sqlConnection.Close();
+                return columns;
             }
         }
     }

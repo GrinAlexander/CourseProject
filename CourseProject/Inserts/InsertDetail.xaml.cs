@@ -29,34 +29,32 @@ namespace CourseProject.Inserts
 
         private void buttonInsert_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
                 Connector connector = new Connector();
-                connector.InsertIntoDetail
+                connector.InsertDetail
                     (
                     Convert.ToInt32(comboBoxStorage.SelectedValue),
                     this.textBoxName.Text,
+                    this.textBoxArticul.Text,
                     this.textBoxProd.Text,
                     this.textBoxCategory.Text,
                     float.Parse(this.textBoxPriceR.Text) + (float.Parse(this.textBoxPriceK.Text) / 100)
                     );
                 MessageBox.Show("Запись успешно добавлена!");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-
         }
 
         public void FillComboBoxes()
         {
             Connector connector = new Connector();
-            DataTable dt = connector.GetComboBoxData("Склад");
+            DataTable dt = connector.GetTable("Склад");
+            DataTable dt_c = connector.GetTable("Авто");
 
             comboBoxStorage.ItemsSource = dt.DefaultView;
             comboBoxStorage.DisplayMemberPath = "адрес";
             comboBoxStorage.SelectedValuePath = "id";
+
+            comboBoxAuto.ItemsSource = dt_c.DefaultView;
+            comboBoxAuto.DisplayMemberPath = "модель";
+            comboBoxAuto.SelectedValuePath = "id";
         }
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
