@@ -25,7 +25,7 @@ CREATE TABLE Деталь --создание таблицы "Деталь"
 	id_склада int NOT NULL,
 	id_авто int NOT NULL,
 	название varchar(100) NOT NULL,
-	артикул varchar(100) NOT NULL,
+	артикул varchar(100) NOT NULL UNIQUE,
 	производитель varchar(50) NOT NULL,
 	категория varchar(30) NOT NULL,
 	цена float NOT NULL,
@@ -89,6 +89,20 @@ INSERT INTO Заявка VALUES (1, 1, 5.20), (2, 3, 9.87), (3, 2, 76.08), (4, 1, 69.6
 
 INSERT INTO Продажа VALUES (1, '26/9/2018'), (2, '26/9/2019'), (3, '25/9/2019'), (4, '20/9/2019')
 
+GO
+CREATE TRIGGER UpdateSum ON Заказ AFTER INSERT, UPDATE AS
+BEGIN
+	declare @id_d int
+	declare @id int
+	declare @count int
+	declare @price float
+	set @id = (SELECT inserted.id FROM inserted)
+	set @id_d = (SELECT inserted.id_детали FROM inserted)
+	set @count = (SELECT inserted.количество FROM inserted)
+	set @price = (SELECT TOP 1 Деталь.цена FROM Деталь JOIN Заказ ON Заказ.id_детали = Деталь.id WHERE Деталь.id = @id_d)
+	UPDATE Заказ SET сумма = ROUND((CAST(@count AS FLOAT) * @price),2) WHERE Заказ.id = @id
+END
+
 Go
 CREATE VIEW ДетальView AS
 	SELECT Деталь.id, Авто.модель, Склад.адрес, Деталь.название, Деталь.артикул, Деталь.категория, Деталь.цена FROM dbo.Деталь
@@ -132,20 +146,6 @@ GO
 CREATE VIEW SearchView AS
 	SELECT Деталь.id, Авто.марка, Авто.модель, Деталь.артикул, Деталь.категория, Деталь.название, Деталь.производитель, Деталь.цена FROM Деталь
 	JOIN Авто ON Авто.id = Деталь.id_авто
-
-GO
-CREATE TRIGGER UpdateSum ON Заказ AFTER INSERT, UPDATE AS
-BEGIN
-	declare @id_d int
-	declare @id int
-	declare @count int
-	declare @price float
-	set @id = (SELECT inserted.id FROM inserted)
-	set @id_d = (SELECT inserted.id_детали FROM inserted)
-	set @count = (SELECT inserted.количество FROM inserted)
-	set @price = (SELECT TOP 1 Деталь.цена FROM Деталь JOIN Заказ ON Заказ.id_детали = Деталь.id WHERE Деталь.id = @id_d)
-	UPDATE Заказ SET сумма = ROUND((CAST(@count AS FLOAT) * @price),2) WHERE Заказ.id = @id
-END
 
 GO
 CREATE VIEW PriceListView AS

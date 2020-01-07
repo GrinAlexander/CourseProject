@@ -29,12 +29,12 @@
             <TabItem x:Name="tabItemOrder" Header="Поставки" FontSize="18" Height="60">
                 <Grid>
                     <Label Content="Заказы" Margin="30, 30, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                    <DataGrid x:Name="dataGridDetailsOrder" Margin="30, 60, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="400" Height="200" FontSize="14" ColumnWidth="*" BorderThickness="0, 1, 0, 0" Background="Transparent" HorizontalScrollBarVisibility="Auto" SelectionChanged="dataGridDetailsOrder_SelectionChanged"/>
+                    <DataGrid x:Name="dataGridDetailsOrder" Margin="30, 60, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="400" Height="200" FontSize="14" ColumnWidth="*" BorderThickness="0, 1, 0, 0" Background="Transparent" HorizontalScrollBarVisibility="Auto" SelectionChanged="dataGridDetailsOrder_SelectionChanged" IsReadOnly="True"/>
                     <Button x:Name="buttonAddOrder" Margin="370, 30, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="0" Background="Transparent" Content="+" FontWeight="Bold" FontSize="22" Height="30" Width="30" Click="buttonAddOrder_Click"/>
                     <Button x:Name="buttonRemoveOrder" Margin="400, 30, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="0" Background="Transparent" Content="-" FontWeight="Bold" FontSize="22" Height="30" Width="30" Click="buttonRemoveOrder_Click" IsEnabled="False"/>
 
                     <Label Content="Детали" Margin="460, 30, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                    <DataGrid x:Name="dataGridDetails2" Margin="460, 60, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="400" Height="400" FontSize="14" ColumnWidth="*" BorderThickness="0, 1, 0, 0" Background="Transparent" HorizontalScrollBarVisibility="Auto" SelectionChanged="dataGridDetails2_SelectionChanged"/>
+                    <DataGrid x:Name="dataGridDetails2" Margin="460, 60, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="400" Height="400" FontSize="14" ColumnWidth="*" BorderThickness="0, 1, 0, 0" Background="Transparent" HorizontalScrollBarVisibility="Auto" SelectionChanged="dataGridDetails2_SelectionChanged" IsReadOnly="True"/>
                     <Button x:Name="buttonAddDetail2" Margin="800, 30, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="0" Background="Transparent" Content="+" FontWeight="Bold" FontSize="22" Height="30" Width="30" Click="buttonAddDetail2_Click"/>
                     <Button x:Name="buttonRemoveDetail2" Margin="830, 30, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="0" Background="Transparent" Content="-" FontWeight="Bold" FontSize="22" Height="30" Width="30" Click="buttonRemoveDetail2_Click" IsEnabled="False"/>
                 </Grid>
@@ -44,13 +44,13 @@
                 <Grid>
                     <TextBox x:Name="textBoxSearch" Margin="30" VerticalAlignment="Top" HorizontalAlignment="Stretch" FontSize="22" TextChanged="textBoxSearch_TextChanged"/>
                     <Button x:Name="buttonInOrder" Content="В заказ" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0, 30, 30, 0" FontSize="20" Click="buttonInOrder_Click"/>
-                    <DataGrid x:Name="dataGridSearch" Margin="30, 90, 30, 30" BorderThickness="0, 1, 0, 0" Background="Transparent" ColumnWidth="*"/>
+                    <DataGrid x:Name="dataGridSearch" Margin="30, 90, 30, 30" BorderThickness="0, 1, 0, 0" Background="Transparent" ColumnWidth="*" IsReadOnly="True"/>
                 </Grid>
             </TabItem>
 
             <TabItem Header="Заказ" FontSize="18" Height="60">
                 <Grid>
-                    <DataGrid x:Name="dataGridOrder" Margin="30, 90, 30, 30" BorderThickness="0, 1, 0, 0" Background="Transparent" ColumnWidth="*"/>
+                    <DataGrid x:Name="dataGridOrder" Margin="30, 90, 30, 30" BorderThickness="0, 1, 0, 0" Background="Transparent" ColumnWidth="*" IsReadOnly="True"/>
                     <Button x:Name="buttonBill" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="30, 30, 0, 0" Content="Сформировать чек" Click="buttonBill_Click"/>
                     <Button x:Name="buttonClearOrder" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0, 30, 30, 0" Content="Очистить" Click="buttonClearOrder_Click"/>
                 </Grid>
