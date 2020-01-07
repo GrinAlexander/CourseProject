@@ -146,5 +146,20 @@ namespace CourseProject
                 return columns;
             }
         }
+
+        public int GetId(string query)
+        {
+            DataTable datatable = new DataTable();
+            using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                adapter.Fill(datatable);
+                cmd.Dispose();
+                sqlConnection.Close();
+            }
+            return Convert.ToInt32(datatable.Rows[0][0]);
+        }
     }
 }

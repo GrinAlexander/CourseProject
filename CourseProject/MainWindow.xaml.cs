@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CourseProject.Inserts;
+using Microsoft.Reporting.WinForms;
 
 namespace CourseProject
 {
@@ -22,9 +25,12 @@ namespace CourseProject
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Connector connector = new Connector();
+        private readonly Connector connector = new Connector();
         private int id_storage = 0;
         private int id_detail = 0;
+        private int id_order = 0;
+        private DataTable orderTable;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -36,7 +42,7 @@ namespace CourseProject
             {
                 InsertStorage insertStorage = new InsertStorage();
                 insertStorage.ShowDialog();
-                Refresh();
+                RefreshFirst();
             }
             catch (Exception ex)
             {
@@ -50,7 +56,10 @@ namespace CourseProject
             {
                 dataGridStorage.ItemsSource = connector.GetTable("СкладView").DefaultView;
                 dataGridDetails.ItemsSource = connector.GetDataTableByQuery($"SELECT TOP 1 * FROM ДетальНаСкладеView").DefaultView;
-                SetVisibility();
+                dataGridDetailsOrder.ItemsSource = connector.GetTable("ЗаказView").DefaultView;
+                dataGridDetails2.ItemsSource = connector.GetDataTableByQuery($"SELECT TOP 1 * FROM ЗаказДеталиView").DefaultView;
+                NewOrderDataGrid();
+                SetVisibilityFirst();
             }
             catch (Exception ex)
             {
@@ -66,7 +75,7 @@ namespace CourseProject
                 DataRowView row = dataGridStorage.SelectedItem as DataRowView;
                 id_storage = (int)row.Row[0];
                 dataGridDetails.ItemsSource = connector.GetDataTableByQuery($"SELECT * FROM ДетальНаСкладеView WHERE id = {id_storage}").DefaultView;
-                SetVisibility();
+                SetVisibilityFirst();
             }
             else
             {
@@ -74,13 +83,13 @@ namespace CourseProject
             }
         }
 
-        private void Refresh()
+        private void RefreshFirst()
         {
             try
             {
                 dataGridStorage.ItemsSource = connector.GetTable("СкладView").DefaultView;
                 dataGridDetails.ItemsSource = connector.GetDataTableByQuery($"SELECT * FROM ДетальНаСкладеView WHERE id = {id_storage}").DefaultView;
-                SetVisibility();
+                SetVisibilityFirst();
             }
             catch (Exception ex)
             {
@@ -88,7 +97,20 @@ namespace CourseProject
             }
         }
 
-        private void SetVisibility()
+        private void RefreshSecond()
+        {
+            try
+            {
+                dataGridDetailsOrder.ItemsSource = connector.GetTable("ЗаказView").DefaultView;
+                dataGridDetails2.ItemsSource = connector.GetDataTableByQuery($"SELECT * FROM ЗаказДеталиView WHERE id = {id_order}").DefaultView;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void SetVisibilityFirst()
         {
             dataGridStorage.Columns[0].Visibility = Visibility.Collapsed;
             dataGridDetails.Columns[0].Visibility = Visibility.Collapsed;
@@ -100,7 +122,7 @@ namespace CourseProject
             {
                 InsertDetail insertDetail = new InsertDetail();
                 insertDetail.ShowDialog();
-                Refresh();
+                RefreshFirst();
             }
             catch (Exception ex)
             {
@@ -113,7 +135,7 @@ namespace CourseProject
             try
             {
                 connector.Delete("Деталь", "id", id_detail);
-                Refresh();
+                RefreshFirst();
             }
             catch (Exception ex)
             {
@@ -126,7 +148,7 @@ namespace CourseProject
             try
             {
                 connector.Delete("Склад", "id", id_storage);
-                Refresh();
+                RefreshFirst();
             }
             catch (Exception ex)
             {
@@ -148,21 +170,11 @@ namespace CourseProject
             }
         }
 
-        private void buttonSearch_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
         private void textBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
             {
-                dataGridSearch.ItemsSource = connector.GetDataTableByQuery( //Авто.марка, Авто.модель, Деталь.артикул, Деталь.категория, Деталь.название, Деталь.производитель
+                dataGridSearch.ItemsSource = connector.GetDataTableByQuery(
                     $"SELECT * FROM SearchView WHERE марка LIKE '%{textBoxSearch.Text}%' OR модель LIKE '%{textBoxSearch.Text}%' OR артикул LIKE '%{textBoxSearch.Text}%' OR категория LIKE '%{textBoxSearch.Text}%' OR название LIKE '%{textBoxSearch.Text}%' OR производитель LIKE '%{textBoxSearch.Text}%'").DefaultView;
                 dataGridSearch.Columns[0].Visibility = Visibility.Collapsed;
             }
@@ -171,6 +183,217 @@ namespace CourseProject
                 MessageBox.Show(ex.Message);
             }
 
+        }
+
+        private void buttonBill_Click(object sender, RoutedEventArgs e)
+        {
+            PrintDialog Printdlg = new PrintDialog();
+            if ((bool)Printdlg.ShowDialog().GetValueOrDefault())
+            {
+                Size pageSize = new Size(Printdlg.PrintableAreaWidth, Printdlg.PrintableAreaHeight);
+                dataGridOrder.Measure(pageSize);
+                dataGridOrder.Arrange(new Rect(5, 5, pageSize.Width, pageSize.Height));
+                Printdlg.PrintVisual(dataGridOrder, Title);
+            }
+        }
+
+        private void buttonInOrder_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataGridSearch.SelectedItem != null)
+            {
+                DataRowView row = dataGridSearch.SelectedItem as DataRowView;
+                AddInOrder(row);
+                dataGridOrder.ItemsSource = orderTable.DefaultView;
+            }
+        }
+
+        private void AddInOrder(DataRowView rowView)
+        {
+            orderTable.Rows[orderTable.Rows.Count - 1].Delete();
+            int? rowIndex = IsOrdered(rowView.Row[3].ToString());
+            if (rowIndex != null)
+            {
+                int count = (int)orderTable.Rows[rowIndex.Value]["Количество"];
+                orderTable.Rows[rowIndex.Value]["Количество"] = ++count;
+                orderTable.Rows[rowIndex.Value]["Стоимость"] = count * double.Parse(rowView[7].ToString());
+                CalcTotalRow();
+                return;
+            }
+            DataRow row = orderTable.NewRow();
+            row["Артикул"] = rowView[3].ToString();
+            row["Количество"] = 1;
+            row["Стоимость"] = rowView[7].ToString();
+            orderTable.Rows.Add(row);
+            CalcTotalRow();
+        }
+
+        private int? IsOrdered(string articul)
+        {
+            for (int i = 0; i < orderTable.Rows.Count; i++)
+            {
+                if (orderTable.Rows[i]["Артикул"].ToString().ToLower() == articul.ToLower())
+                {
+                    return i;
+                }
+            }
+            return null;
+        }
+
+        private void CalcTotalRow()
+        {
+            int count = 0;
+            double price = 0;
+            foreach (DataRow row in orderTable.Rows)
+            {
+                count += (int)row["Количество"];
+                price += double.Parse(row["Стоимость"].ToString());
+            }
+            DataRow newRow = orderTable.NewRow();
+            newRow["Артикул"] = "Итого";
+            newRow["Количество"] = count;
+            newRow["Стоимость"] = price;
+            orderTable.Rows.Add(newRow);
+        }
+
+        private void NewOrderDataGrid()
+        {
+            orderTable = new DataTable();
+            orderTable.Columns.Add("Артикул", typeof(string));
+            orderTable.Columns.Add("Количество", typeof(int));
+            orderTable.Columns.Add("Стоимость", typeof(double));
+            DataRow row = orderTable.NewRow();
+            row["Артикул"] = "Итого";
+            row["Количество"] = 0;
+            row["Стоимость"] = 0;
+            orderTable.Rows.Add(row);
+            dataGridOrder.ItemsSource = orderTable.DefaultView;
+        }
+
+        private void buttonClearOrder_Click(object sender, RoutedEventArgs e)
+        {
+            NewOrderDataGrid();
+        }
+
+        private void buttonAddOrder_Click(object sender, RoutedEventArgs e)
+        {
+            InsertOrder insertOrder = new InsertOrder();
+            insertOrder.ShowDialog();
+            RefreshSecond();
+        }
+
+        private void buttonRemoveOrder_Click(object sender, RoutedEventArgs e)
+        {
+
+            connector.Delete("Заказ", "id", id_order);
+            RefreshSecond();
+        }
+
+        private void dataGridDetailsOrder_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dataGridDetailsOrder.SelectedItem != null)
+            {
+                buttonRemoveOrder.IsEnabled = true;
+                DataRowView row = dataGridDetailsOrder.SelectedItem as DataRowView;
+                id_order = (int)row.Row[0];
+                dataGridDetails2.ItemsSource = connector.GetDataTableByQuery($"SELECT * FROM ЗаказДеталиView WHERE id = {id_order}").DefaultView;
+            }
+            else
+            {
+                buttonRemoveOrder.IsEnabled = false;
+            }
+        }
+
+        private void buttonAddDetail2_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                InsertDetail insertDetail = new InsertDetail();
+                insertDetail.ShowDialog();
+                RefreshSecond();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void buttonRemoveDetail2_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                connector.Delete("Деталь", "id", id_detail);
+                RefreshSecond();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void dataGridDetails2_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dataGridDetails2.SelectedItem != null)
+            {
+                buttonRemoveDetail2.IsEnabled = true;
+                DataRowView row = dataGridDetails2.SelectedItem as DataRowView;
+                id_detail = (int)row.Row[0];
+            }
+            else
+            {
+                buttonRemoveDetail2.IsEnabled = false;
+            }
+        }
+
+        private void FillReportViewer()
+        {
+            string reportName = "";
+            string dataSourceName = "AutoPartsDataSet";
+            string tableName = "";
+            switch (comboBoxReports.SelectedIndex)
+            {
+                case 0:
+                    {
+                        reportName = "ReportPriceList";
+                        tableName = "PriceListView";
+                        break;
+                    }
+                case 1:
+                    {
+                        reportName = "ReportSalesInYear";
+                        tableName = "SalesInYearView";
+                        break;
+                    }
+                case 2:
+                    {
+                        reportName = "ReportTop3Sales";
+                        tableName = "TopDetailsView";
+                        break;
+                    }
+                case 3:
+                    {
+                        reportName = "ReportStoragesState";
+                        tableName = "СостояниеСкладовView";
+                        break;
+                    }
+                default:
+                    return;
+            }
+            Connector connector = new Connector();
+            ReportDataSource reportDataSource = new ReportDataSource(dataSourceName, connector.GetTable(tableName));
+            reportViewerMain.LocalReport.DataSources.Add(reportDataSource);
+            reportViewerMain.LocalReport.ReportEmbeddedResource = $"CourseProject.Reports.{reportName}.rdlc";
+            reportViewerMain.RefreshReport();
+        }
+
+        private void buttonShowReport_Click(object sender, RoutedEventArgs e)
+        {
+            reportViewerMain.Reset();
+            FillReportViewer();
+        }
+
+        private void buttonManual_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("Manual.chm");
         }
     }
 }

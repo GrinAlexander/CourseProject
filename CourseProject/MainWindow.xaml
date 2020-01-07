@@ -4,18 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CourseProject"
+        xmlns:rv="clr-namespace:Microsoft.Reporting.WinForms;assembly=Microsoft.ReportViewer.WinForms"
         mc:Ignorable="d"
         Title="Меню" Height="500" Width="1000"
         WindowStartupLocation="CenterScreen"
         Loaded="Window_Loaded"
         >
     <Grid>
-        <Menu Height="20" VerticalAlignment="Top" HorizontalContentAlignment="Left">
-            <MenuItem Header="Файл">
-            </MenuItem>
-        </Menu>
-        <TabControl x:Name="tabControl" TabStripPlacement="Right" Margin="0, 20, 0, 0" SelectionChanged="TabControl_SelectionChanged">
-            <TabItem Header="Наличие" FontSize="18" IsSelected="True">
+        <TabControl x:Name="tabControl" TabStripPlacement="Right">
+            <TabItem Header="Наличие" FontSize="18" IsSelected="True" Height="60">
                 <Grid>
                     <Label Content="Склад" Margin="30, 30, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                     <DataGrid x:Name="dataGridStorage" Margin="30, 60, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="400" Height="200" FontSize="14" ColumnWidth="*" BorderThickness="0, 1, 0, 0" Background="Transparent" HorizontalScrollBarVisibility="Auto" SelectionChanged="dataGridStorage_SelectionChanged" IsReadOnly="True"/>
@@ -28,20 +25,53 @@
                     <Button x:Name="buttonRemoveDetail" Margin="830, 30, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="0" Background="Transparent" Content="-" FontWeight="Bold" FontSize="22" Height="30" Width="30" Click="buttonRemoveDetail_Click" IsEnabled="False"/>
                 </Grid>
             </TabItem>
-            
-            <TabItem Header="Поиск" FontSize="18">
+
+            <TabItem x:Name="tabItemOrder" Header="Поставки" FontSize="18" Height="60">
+                <Grid>
+                    <Label Content="Заказы" Margin="30, 30, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                    <DataGrid x:Name="dataGridDetailsOrder" Margin="30, 60, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="400" Height="200" FontSize="14" ColumnWidth="*" BorderThickness="0, 1, 0, 0" Background="Transparent" HorizontalScrollBarVisibility="Auto" SelectionChanged="dataGridDetailsOrder_SelectionChanged"/>
+                    <Button x:Name="buttonAddOrder" Margin="370, 30, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="0" Background="Transparent" Content="+" FontWeight="Bold" FontSize="22" Height="30" Width="30" Click="buttonAddOrder_Click"/>
+                    <Button x:Name="buttonRemoveOrder" Margin="400, 30, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="0" Background="Transparent" Content="-" FontWeight="Bold" FontSize="22" Height="30" Width="30" Click="buttonRemoveOrder_Click" IsEnabled="False"/>
+
+                    <Label Content="Детали" Margin="460, 30, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                    <DataGrid x:Name="dataGridDetails2" Margin="460, 60, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="400" Height="400" FontSize="14" ColumnWidth="*" BorderThickness="0, 1, 0, 0" Background="Transparent" HorizontalScrollBarVisibility="Auto" SelectionChanged="dataGridDetails2_SelectionChanged"/>
+                    <Button x:Name="buttonAddDetail2" Margin="800, 30, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="0" Background="Transparent" Content="+" FontWeight="Bold" FontSize="22" Height="30" Width="30" Click="buttonAddDetail2_Click"/>
+                    <Button x:Name="buttonRemoveDetail2" Margin="830, 30, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="0" Background="Transparent" Content="-" FontWeight="Bold" FontSize="22" Height="30" Width="30" Click="buttonRemoveDetail2_Click" IsEnabled="False"/>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Поиск" FontSize="18" Height="60">
                 <Grid>
                     <TextBox x:Name="textBoxSearch" Margin="30" VerticalAlignment="Top" HorizontalAlignment="Stretch" FontSize="22" TextChanged="textBoxSearch_TextChanged"/>
-                    <Button x:Name="buttonSearch" Content="🔎" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0, 30, 30, 0" FontSize="20" Click="buttonSearch_Click"/>
+                    <Button x:Name="buttonInOrder" Content="В заказ" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0, 30, 30, 0" FontSize="20" Click="buttonInOrder_Click"/>
                     <DataGrid x:Name="dataGridSearch" Margin="30, 90, 30, 30" BorderThickness="0, 1, 0, 0" Background="Transparent" ColumnWidth="*"/>
                 </Grid>
             </TabItem>
-            
-            <TabItem Header="Поставки" FontSize="18">
+
+            <TabItem Header="Заказ" FontSize="18" Height="60">
                 <Grid>
-                    
+                    <DataGrid x:Name="dataGridOrder" Margin="30, 90, 30, 30" BorderThickness="0, 1, 0, 0" Background="Transparent" ColumnWidth="*"/>
+                    <Button x:Name="buttonBill" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="30, 30, 0, 0" Content="Сформировать чек" Click="buttonBill_Click"/>
+                    <Button x:Name="buttonClearOrder" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0, 30, 30, 0" Content="Очистить" Click="buttonClearOrder_Click"/>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Отчёты" FontSize="18" Height="60">
+                <Grid>
+                    <Label Content="Отчёты:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20, 20, 0, 0" FontSize="16"/>
+                    <Button x:Name="buttonShowReport" Content="Показать" Margin="200, 50, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="150" FontSize="14" Click="buttonShowReport_Click"/>
+                    <ComboBox x:Name="comboBoxReports" Margin="20, 50, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="150" FontSize="14">
+                        <ComboBoxItem Content="Прайс-лист"></ComboBoxItem>
+                        <ComboBoxItem Content="Годовые продажи"></ComboBoxItem>
+                        <ComboBoxItem Content="Топы продаж"></ComboBoxItem>
+                        <ComboBoxItem Content="Детали на складах"></ComboBoxItem>
+                    </ComboBox>
+                    <WindowsFormsHost Margin="20, 80, 20, 20">
+                        <rv:ReportViewer x:Name="reportViewerMain"></rv:ReportViewer>
+                    </WindowsFormsHost>
                 </Grid>
             </TabItem>
         </TabControl>
+        <Button x:Name="buttonManual" Content="Справка" FontSize="18" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="63" Width="92" Background="Transparent" BorderThickness="0" Click="buttonManual_Click"/>
     </Grid>
 </Window>

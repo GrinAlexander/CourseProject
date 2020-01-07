@@ -176,9 +176,7 @@ E:\Курсовые\Курсовой_Гринь\CourseProject\CourseProject\obj\
 C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\bin\Debug\CourseProject.exe.config
 C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\bin\Debug\CourseProject.exe
 C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\bin\Debug\CourseProject.pdb
-C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\obj\Debug\CourseProject.csprojAssemblyReference.cache
 C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\obj\Debug\Inserts\InsertDefect.g.cs
-C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\obj\Debug\Inserts\InsertProvider.g.cs
 C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\obj\Debug\Inserts\InsertRequest.g.cs
 C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\obj\Debug\Inserts\InsertSell.g.cs
 C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\obj\Debug\Inserts\InsertStorage.g.cs
@@ -189,7 +187,6 @@ C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\obj\Debug\App.g.cs
 C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\obj\Debug\CourseProject_MarkupCompile.cache
 C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\obj\Debug\CourseProject_MarkupCompile.lref
 C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\obj\Debug\Inserts\InsertDefect.baml
-C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\obj\Debug\Inserts\InsertProvider.baml
 C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\obj\Debug\Inserts\InsertRequest.baml
 C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\obj\Debug\Inserts\InsertSell.baml
 C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\obj\Debug\Inserts\InsertStorage.baml
@@ -203,3 +200,13 @@ C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\obj\Debug\CourseProj
 C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\obj\Debug\CourseProject.pdb
 C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\obj\Debug\Inserts\InsertAuto.g.cs
 C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\obj\Debug\Inserts\InsertAuto.baml
+C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\obj\Debug\CourseProject.csprojAssemblyReference.cache
+C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\bin\Debug\Microsoft.ReportViewer.Common.dll
+C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\bin\Debug\Microsoft.ReportViewer.DataVisualization.dll
+C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\bin\Debug\Microsoft.ReportViewer.ProcessingObjectModel.dll
+C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\bin\Debug\Microsoft.ReportViewer.WinForms.dll
+C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\obj\Debug\CourseProject.csproj.CopyComplete
+C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\obj\Debug\RdlCompile.cache
+C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\obj\Debug\RdlCompile.compiled
+C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\bin\Debug\Manual.chm
+C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\obj\Debug\CourseProject_Content.g.cs
