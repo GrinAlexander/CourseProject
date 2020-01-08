@@ -11,23 +11,6 @@ namespace CourseProject
 
         public Connector() { }
 
-        public List<string> GetListTables()
-        {
-            using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
-            {
-                sqlConnection.Open();
-                List<string> tables = new List<string>();
-                DataTable dt = sqlConnection.GetSchema("Tables");
-                foreach (DataRow row in dt.Rows)
-                {
-                    string tablename = (string)row[2];
-                    tables.Add(tablename);
-                }
-                sqlConnection.Close();
-                return tables;
-            }
-        }
-
         public void InsertStorage(string adress, int capacity)
         {
             string query = $"INSERT INTO Склад VALUES (N'{adress}', {capacity})";
@@ -115,30 +98,6 @@ namespace CourseProject
             string tableName = tN;
             string query = $"SELECT * FROM {tableName}";
             return GetDataTableByQuery(query);
-        }
-
-        public List<string> GetListOfColumns(string tN)
-        {
-            string tableName = tN;
-            using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
-            {
-                sqlConnection.Open();
-                string query = $"SELECT * FROM {tableName}View";
-                SqlCommand command = new SqlCommand(query, sqlConnection);
-                command.ExecuteNonQuery();
-
-                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(command);
-                DataTable datatable = new DataTable();
-                sqlDataAdapter.Fill(datatable);
-
-                List<string> columns = new List<string>();
-                foreach (DataColumn column in datatable.Columns)
-                {
-                    columns.Add(column.ColumnName);
-                }
-                sqlConnection.Close();
-                return columns;
-            }
         }
 
         public int GetId(string query)
