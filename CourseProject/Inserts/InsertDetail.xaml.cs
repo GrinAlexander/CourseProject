@@ -62,5 +62,12 @@ namespace CourseProject.Inserts
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
+
+        private void buttonAddCar_Click(object sender, RoutedEventArgs e)
+        {
+            InsertAuto insertAuto = new InsertAuto();
+            insertAuto.ShowDialog();
+            FillComboBoxes();
+        }
     }
 }

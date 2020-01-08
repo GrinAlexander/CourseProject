@@ -11,13 +11,13 @@
     <Grid>
         <Label Content="Склад: "  HorizontalAlignment="Left" Margin="30,30,0,0" VerticalAlignment="Top" FontSize="16" Padding="0"/>
         <ComboBox x:Name="comboBoxStorage" Margin="30,50,30,0" VerticalAlignment="Top" FontSize="14" IsReadOnly="True"/>
-        
+
         <Label Content="Авто: "  HorizontalAlignment="Left" Margin="30,80,0,0" VerticalAlignment="Top" FontSize="16" Padding="0"/>
-        <ComboBox x:Name="comboBoxAuto" Margin="30,100,30,0" VerticalAlignment="Top" FontSize="14" IsReadOnly="True"/>
+        <ComboBox x:Name="comboBoxAuto" Margin="30,100,60,0" VerticalAlignment="Top" FontSize="14" IsReadOnly="True"/>
 
         <Label Content="Название: "  HorizontalAlignment="Left" Margin="30,130,0,0" VerticalAlignment="Top" FontSize="16" Padding="0"/>
         <TextBox x:Name="textBoxName" Margin="30,150,30,0" VerticalAlignment="Top" FontSize="14" MaxLength="100"/>
-        
+
         <Label Content="Артикул: "  HorizontalAlignment="Left" Margin="30,180,0,0" VerticalAlignment="Top" FontSize="16" Padding="0"/>
         <TextBox x:Name="textBoxArticul" Margin="30,200,30,0" VerticalAlignment="Top" FontSize="14" MaxLength="100"/>
 
@@ -32,7 +32,7 @@
         <Label Content="р. "  HorizontalAlignment="Left" Margin="100,350,80,0" VerticalAlignment="Top" FontSize="16" Padding="0"/>
         <TextBox x:Name="textBoxPriceK" Margin="150,350,80,0" VerticalAlignment="Top" FontSize="14" MaxLength="10" PreviewTextInput="NumberValidationTextBox"/>
         <Label Content="к. "  HorizontalAlignment="Left" Margin="220,350,30,0" VerticalAlignment="Top" FontSize="16" Padding="0"/>
-        
+        <Button x:Name="buttonAddCar" Margin="232,93,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="0" Background="Transparent" Content="+" FontWeight="Bold" FontSize="22" Height="32" Width="30" Click="buttonAddCar_Click"/>
         <Button x:Name="buttonInsert" Content="Добавить" VerticalAlignment="Bottom" Margin="30, 0, 30, 30" FontSize="18" Click="buttonInsert_Click"/>
 
     </Grid>

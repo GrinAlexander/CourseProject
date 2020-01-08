@@ -103,6 +103,20 @@ BEGIN
 	UPDATE Заказ SET сумма = ROUND((CAST(@count AS FLOAT) * @price),2) WHERE Заказ.id = @id
 END
 
+GO
+CREATE TRIGGER UpdateSum2 ON Заявка AFTER INSERT, UPDATE AS
+BEGIN
+	declare @id_d int
+	declare @id int
+	declare @count int
+	declare @price float
+	set @id = (SELECT inserted.id FROM inserted)
+	set @id_d = (SELECT inserted.id_детали FROM inserted)
+	set @count = (SELECT inserted.количество FROM inserted)
+	set @price = (SELECT TOP 1 Деталь.цена FROM Деталь JOIN Заявка ON Заявка.id_детали = Деталь.id WHERE Деталь.id = @id_d)
+	UPDATE Заявка SET сумма = ROUND((CAST(@count AS FLOAT) * @price),2) WHERE Заявка.id = @id
+END
+
 Go
 CREATE VIEW ДетальView AS
 	SELECT Деталь.id, Авто.модель, Склад.адрес, Деталь.название, Деталь.артикул, Деталь.категория, Деталь.цена FROM dbo.Деталь

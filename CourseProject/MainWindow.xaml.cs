@@ -188,12 +188,13 @@ namespace CourseProject
         private void buttonBill_Click(object sender, RoutedEventArgs e)
         {
             PrintDialog Printdlg = new PrintDialog();
-            if ((bool)Printdlg.ShowDialog().GetValueOrDefault())
+            if (Printdlg.ShowDialog().GetValueOrDefault())
             {
                 Size pageSize = new Size(Printdlg.PrintableAreaWidth, Printdlg.PrintableAreaHeight);
                 dataGridOrder.Measure(pageSize);
                 dataGridOrder.Arrange(new Rect(5, 5, pageSize.Width, pageSize.Height));
                 Printdlg.PrintVisual(dataGridOrder, Title);
+                AddOrderInDB();
             }
         }
 
@@ -394,6 +395,17 @@ namespace CourseProject
         private void buttonManual_Click(object sender, RoutedEventArgs e)
         {
             Process.Start("Manual.chm");
+        }
+
+        private void AddOrderInDB()
+        {
+            for (int i = 0; i < orderTable.Rows.Count - 1; i++)
+            {
+                string articul = orderTable.Rows[i]["Артикул"].ToString();
+                int count = (int)orderTable.Rows[i]["Количество"];
+                int id = connector.GetId($"SELECT TOP 1 id FROM Деталь WHERE артикул = '{articul}'");
+                connector.InsertRequest(id, count);
+            }
         }
     }
 }

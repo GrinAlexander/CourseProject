@@ -52,12 +52,6 @@ namespace CourseProject
             Insert(query);
         }
 
-        public void InsertProvider(int id_o, string name)
-        {
-            string query = $"INSERT INTO Поставщик VALUES ({id_o}, N'{name}')";
-            Insert(query);
-        }
-
         public void InsertRequest(int id_d, int amount)
         {
             string query = $"INSERT INTO Заявка (id_детали, количество) VALUES ({id_d}, {amount})";
