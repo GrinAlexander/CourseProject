@@ -51,7 +51,7 @@
             <TabItem Header="Заказ" FontSize="18" Height="60">
                 <Grid>
                     <DataGrid x:Name="dataGridOrder" Margin="30, 90, 30, 30" BorderThickness="0, 1, 0, 0" Background="Transparent" ColumnWidth="*" IsReadOnly="True"/>
-                    <Button x:Name="buttonBill" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="30, 30, 0, 0" Content="Сформировать чек" Click="buttonBill_Click"/>
+                    <Button x:Name="buttonBill" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="30, 30, 0, 0" Content="Отправить чек" Click="buttonBill_Click"/>
                     <Button x:Name="buttonClearOrder" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0, 30, 30, 0" Content="Очистить" Click="buttonClearOrder_Click"/>
                 </Grid>
             </TabItem>

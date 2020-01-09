@@ -4,7 +4,10 @@ using System.Data;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -187,15 +190,58 @@ namespace CourseProject
 
         private void buttonBill_Click(object sender, RoutedEventArgs e)
         {
-            PrintDialog Printdlg = new PrintDialog();
-            if (Printdlg.ShowDialog().GetValueOrDefault())
+            string html = GetHtmlBody();
+            SendAutomatedEmail(html, "androidgryn777@gmail.com");
+            AddOrderInDB();
+        }
+
+        public string GetHtmlBody()
+        {
+            string messageBody = "<font>The following are the records: </font><br><br>";
+            string htmlTableStart = "<table style=\"border-collapse:collapse; text-align:center;\" >";
+            string htmlTableEnd = "</table>";
+            string htmlHeaderRowStart = "<tr style =\"background-color:#6FA1D2; color:#ffffff;\">";
+            string htmlHeaderRowEnd = "</tr>";
+            string htmlTrStart = "<tr style =\"color:#555555;\">";
+            string htmlTrEnd = "</tr>";
+            string htmlTdStart = "<td style=\" border-color:#5c87b2; border-style:solid; border-width:thin; padding: 5px;\">";
+            string htmlTdEnd = "</td>";
+
+            messageBody += htmlTableStart;
+            messageBody += htmlHeaderRowStart;
+            messageBody += htmlTdStart + "Артикул" + htmlTdEnd;
+            messageBody += htmlTdStart + "Количество" + htmlTdEnd;
+            messageBody += htmlTdStart + "Стоимость" + htmlTdEnd;
+            messageBody += htmlHeaderRowEnd;
+
+            foreach (DataRow Row in orderTable.Rows)
             {
-                Size pageSize = new Size(Printdlg.PrintableAreaWidth, Printdlg.PrintableAreaHeight);
-                dataGridOrder.Measure(pageSize);
-                dataGridOrder.Arrange(new Rect(5, 5, pageSize.Width, pageSize.Height));
-                Printdlg.PrintVisual(dataGridOrder, Title);
-                AddOrderInDB();
+                messageBody += htmlTrStart;
+                messageBody += htmlTdStart + Row["Артикул"] + htmlTdEnd;
+                messageBody += htmlTdStart + Row["Количество"] + htmlTdEnd;
+                messageBody += htmlTdStart + Row["Стоимость"] + htmlTdEnd;
+                messageBody += htmlTrEnd;
             }
+            messageBody += htmlTableEnd;
+            return messageBody;
+        }
+
+        public static void SendAutomatedEmail(string htmlString, string recipient = "androidgryn777@gmail.com")
+        {
+            MailMessage message = new MailMessage("elirhard@gmail.com", recipient)
+            {
+                IsBodyHtml = true,
+                Body = htmlString,
+                Subject = "Ваш заказ в магазине \"AutoParts\":"
+            };
+
+            SmtpClient client = new SmtpClient("smtp.gmail.com", 587)
+            {
+                EnableSsl = true,
+                Credentials = new NetworkCredential("elirhard@gmail.com", "01234569Elir")
+            };
+            client.Send(message);
+            MessageBox.Show("Сообщение отправлено!");
         }
 
         private void buttonInOrder_Click(object sender, RoutedEventArgs e)
