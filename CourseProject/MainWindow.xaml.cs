@@ -45,6 +45,7 @@ namespace CourseProject
         {
             try
             {
+                dataGridSale.ItemsSource = connector.GetTable("ПродажиView").DefaultView;
                 dataGridStorage.ItemsSource = connector.GetTable("СкладView").DefaultView;
                 dataGridDetails.ItemsSource = connector.GetDataTableByQuery($"SELECT TOP 1 * FROM ДетальНаСкладеView").DefaultView;
                 dataGridDetailsOrder.ItemsSource = connector.GetTable("ЗаказВкладкаView").DefaultView;
@@ -84,6 +85,7 @@ namespace CourseProject
         {
             try
             {
+                dataGridSale.ItemsSource = connector.GetTable("ПродажиView").DefaultView;
                 dataGridStorage.ItemsSource = connector.GetTable("СкладView").DefaultView;
                 dataGridDetails.ItemsSource = connector.GetDataTableByQuery($"SELECT * FROM ДетальНаСкладеView WHERE id = {id_storage}").DefaultView;
                 SetVisibilityFirst();
@@ -393,9 +395,9 @@ namespace CourseProject
 
         private void FillReportViewer()
         {
-            string reportName = "";
             string dataSourceName = "AutoPartsDataSet";
-            string tableName = "";
+            string reportName;
+            string tableName;
             switch (comboBoxReports.SelectedIndex)
             {
                 case 0:
@@ -420,6 +422,12 @@ namespace CourseProject
                     {
                         reportName = "ReportStoragesState";
                         tableName = "СостояниеСкладовView";
+                        break;
+                    }
+                case 4:
+                    {
+                        reportName = "ReportTotalSumInYear";
+                        tableName = "ВручкаView";
                         break;
                     }
                 default:

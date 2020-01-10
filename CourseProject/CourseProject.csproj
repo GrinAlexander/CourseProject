@@ -178,7 +178,11 @@
     <EmbeddedResource Include="Reports\ReportSalesInYear.rdlc" />
     <EmbeddedResource Include="Reports\ReportStoragesState.rdlc" />
     <EmbeddedResource Include="Reports\ReportTop3Sales.rdlc" />
+    <EmbeddedResource Include="Reports\ReportTotalSumInYear.rdlc" />
     <None Include=".editorconfig" />
+    <Content Include="Manual.chm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="AutoPartsDataSet.xsc">
       <DependentUpon>AutoPartsDataSet.xsd</DependentUpon>
     </None>
@@ -190,9 +194,6 @@
     <None Include="AutoPartsDataSet.xss">
       <DependentUpon>AutoPartsDataSet.xsd</DependentUpon>
     </None>
-    <Content Include="Manual.chm">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="ClassDiagram.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

@@ -51,6 +51,13 @@
                 </Grid>
             </TabItem>
 
+            <TabItem Header="Продажи" FontSize="18" Height="60">
+                <Grid>
+                    <Label Content="Продажи" Margin="30, 30, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                    <DataGrid x:Name="dataGridSale" Margin="30, 60, 30, 30" BorderThickness="0, 1, 0, 0" Background="Transparent" ColumnWidth="*" IsReadOnly="True"/>
+                </Grid>
+            </TabItem>
+
             <TabItem Header="Отчёты" FontSize="18" Height="60">
                 <Grid>
                     <Label Content="Отчёты:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20, 20, 0, 0" FontSize="16"/>
@@ -60,6 +67,7 @@
                         <ComboBoxItem Content="Годовые продажи"></ComboBoxItem>
                         <ComboBoxItem Content="Топы продаж"></ComboBoxItem>
                         <ComboBoxItem Content="Детали на складах"></ComboBoxItem>
+                        <ComboBoxItem Content="Выручка"></ComboBoxItem>
                     </ComboBox>
                     <WindowsFormsHost Margin="20, 80, 20, 20">
                         <rv:ReportViewer x:Name="reportViewerMain"></rv:ReportViewer>
