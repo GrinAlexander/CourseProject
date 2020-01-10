@@ -1,23 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using CourseProject.Inserts;
 using Microsoft.Reporting.WinForms;
 
@@ -32,6 +19,7 @@ namespace CourseProject
         private int id_storage = 0;
         private int id_detail = 0;
         private int id_order = 0;
+        private string articul = "";
         private DataTable orderTable;
 
         public MainWindow()
@@ -59,8 +47,7 @@ namespace CourseProject
             {
                 dataGridStorage.ItemsSource = connector.GetTable("СкладView").DefaultView;
                 dataGridDetails.ItemsSource = connector.GetDataTableByQuery($"SELECT TOP 1 * FROM ДетальНаСкладеView").DefaultView;
-                dataGridDetailsOrder.ItemsSource = connector.GetTable("ЗаказView").DefaultView;
-                dataGridDetails2.ItemsSource = connector.GetDataTableByQuery($"SELECT TOP 1 * FROM ЗаказДеталиView").DefaultView;
+                dataGridDetailsOrder.ItemsSource = connector.GetTable("ЗаказВкладкаView").DefaultView;
                 NewOrderDataGrid();
                 SetVisibilityFirst();
             }
@@ -72,17 +59,24 @@ namespace CourseProject
 
         private void dataGridStorage_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (dataGridStorage.SelectedItem != null)
+            try
             {
-                buttonRemoveStorage.IsEnabled = true;
-                DataRowView row = dataGridStorage.SelectedItem as DataRowView;
-                id_storage = (int)row.Row[0];
-                dataGridDetails.ItemsSource = connector.GetDataTableByQuery($"SELECT * FROM ДетальНаСкладеView WHERE id = {id_storage}").DefaultView;
-                SetVisibilityFirst();
+                if (dataGridStorage.SelectedItem != null)
+                {
+                    buttonRemoveStorage.IsEnabled = true;
+                    DataRowView row = dataGridStorage.SelectedItem as DataRowView;
+                    id_storage = (int)row.Row[0];
+                    dataGridDetails.ItemsSource = connector.GetDataTableByQuery($"SELECT * FROM ДетальНаСкладеView WHERE id = {id_storage}").DefaultView;
+                    SetVisibilityFirst();
+                }
+                else
+                {
+                    buttonRemoveStorage.IsEnabled = false;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                buttonRemoveStorage.IsEnabled = false;
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -104,8 +98,7 @@ namespace CourseProject
         {
             try
             {
-                dataGridDetailsOrder.ItemsSource = connector.GetTable("ЗаказView").DefaultView;
-                dataGridDetails2.ItemsSource = connector.GetDataTableByQuery($"SELECT * FROM ЗаказДеталиView WHERE id = {id_order}").DefaultView;
+                dataGridDetailsOrder.ItemsSource = connector.GetTable("ЗаказВкладкаView").DefaultView;
             }
             catch (Exception ex)
             {
@@ -161,15 +154,22 @@ namespace CourseProject
 
         private void dataGridDetails_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (dataGridDetails.SelectedItem != null)
+            try
             {
-                buttonRemoveDetail.IsEnabled = true;
-                DataRowView row = dataGridDetails.SelectedItem as DataRowView;
-                id_detail = (int)row.Row[0];
+                if (dataGridDetails.SelectedItem != null)
+                {
+                    buttonRemoveDetail.IsEnabled = true;
+                    DataRowView row = dataGridDetails.SelectedItem as DataRowView;
+                    id_detail = (int)row.Row[0];
+                }
+                else
+                {
+                    buttonRemoveDetail.IsEnabled = false;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                buttonRemoveDetail.IsEnabled = false;
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -190,9 +190,16 @@ namespace CourseProject
 
         private void buttonBill_Click(object sender, RoutedEventArgs e)
         {
-            string html = GetHtmlBody();
-            SendAutomatedEmail(html, "androidgryn777@gmail.com");
-            AddOrderInDB();
+            try
+            {
+                string html = GetHtmlBody();
+                SendAutomatedEmail(html, "androidgryn777@gmail.com");
+                AddOrderInDB();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         public string GetHtmlBody()
@@ -226,7 +233,7 @@ namespace CourseProject
             return messageBody;
         }
 
-        public static void SendAutomatedEmail(string htmlString, string recipient = "androidgryn777@gmail.com")
+        public void SendAutomatedEmail(string htmlString, string recipient = "androidgryn777@gmail.com")
         {
             MailMessage message = new MailMessage("elirhard@gmail.com", recipient)
             {
@@ -246,11 +253,18 @@ namespace CourseProject
 
         private void buttonInOrder_Click(object sender, RoutedEventArgs e)
         {
-            if (dataGridSearch.SelectedItem != null)
+            try
             {
-                DataRowView row = dataGridSearch.SelectedItem as DataRowView;
-                AddInOrder(row);
-                dataGridOrder.ItemsSource = orderTable.DefaultView;
+                if (dataGridSearch.SelectedItem != null)
+                {
+                    DataRowView row = dataGridSearch.SelectedItem as DataRowView;
+                    AddInOrder(row);
+                    dataGridOrder.ItemsSource = orderTable.DefaultView;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -318,76 +332,62 @@ namespace CourseProject
 
         private void buttonClearOrder_Click(object sender, RoutedEventArgs e)
         {
-            NewOrderDataGrid();
+            try
+            {
+                NewOrderDataGrid();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void buttonAddOrder_Click(object sender, RoutedEventArgs e)
         {
-            InsertOrder insertOrder = new InsertOrder();
-            insertOrder.ShowDialog();
-            RefreshSecond();
+            try
+            {
+                InsertOrder insertOrder = new InsertOrder();
+                insertOrder.ShowDialog();
+                RefreshSecond();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void buttonRemoveOrder_Click(object sender, RoutedEventArgs e)
         {
-
-            connector.Delete("Заказ", "id", id_order);
-            RefreshSecond();
+            try
+            {
+                connector.Delete("Заказ", "id", id_order);
+                RefreshSecond();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void dataGridDetailsOrder_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (dataGridDetailsOrder.SelectedItem != null)
-            {
-                buttonRemoveOrder.IsEnabled = true;
-                DataRowView row = dataGridDetailsOrder.SelectedItem as DataRowView;
-                id_order = (int)row.Row[0];
-                dataGridDetails2.ItemsSource = connector.GetDataTableByQuery($"SELECT * FROM ЗаказДеталиView WHERE id = {id_order}").DefaultView;
-            }
-            else
-            {
-                buttonRemoveOrder.IsEnabled = false;
-            }
-        }
-
-        private void buttonAddDetail2_Click(object sender, RoutedEventArgs e)
-        {
             try
             {
-                InsertDetail insertDetail = new InsertDetail();
-                insertDetail.ShowDialog();
-                RefreshSecond();
+                if (dataGridDetailsOrder.SelectedItem != null)
+                {
+                    buttonRemoveOrder.IsEnabled = true;
+                    DataRowView row = dataGridDetailsOrder.SelectedItem as DataRowView;
+                    articul = row[1].ToString();
+                    id_order = connector.GetId($"SELECT TOP 1 Заказ.id FROM Заказ JOIN Деталь ON Заказ.id_детали = Деталь.id WHERE артикул = '{articul}'");
+                }
+                else
+                {
+                    buttonRemoveOrder.IsEnabled = false;
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void buttonRemoveDetail2_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                connector.Delete("Деталь", "id", id_detail);
-                RefreshSecond();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void dataGridDetails2_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (dataGridDetails2.SelectedItem != null)
-            {
-                buttonRemoveDetail2.IsEnabled = true;
-                DataRowView row = dataGridDetails2.SelectedItem as DataRowView;
-                id_detail = (int)row.Row[0];
-            }
-            else
-            {
-                buttonRemoveDetail2.IsEnabled = false;
             }
         }
 
@@ -434,13 +434,27 @@ namespace CourseProject
 
         private void buttonShowReport_Click(object sender, RoutedEventArgs e)
         {
-            reportViewerMain.Reset();
-            FillReportViewer();
+            try
+            {
+                reportViewerMain.Reset();
+                FillReportViewer();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void buttonManual_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("Manual.chm");
+            try
+            {
+                Process.Start("Manual.chm");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void AddOrderInDB()

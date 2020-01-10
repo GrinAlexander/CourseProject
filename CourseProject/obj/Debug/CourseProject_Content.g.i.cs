@@ -8,6 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("sqlservertypes/readme.htm")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("sqlservertypes/x64/msvcr100.dll")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("sqlservertypes/x64/sqlserverspatial120.dll")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("sqlservertypes/x86/msvcr100.dll")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("sqlservertypes/x86/sqlserverspatial120.dll")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("manual.chm")]
 
 

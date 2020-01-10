@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.Data;
-using System.Collections.Generic;
 
 namespace CourseProject
 {
@@ -17,9 +16,9 @@ namespace CourseProject
             Insert(query);
         }
 
-        public void InsertDetail(int id_s, string name, string articul, string prod, string category, float price)
+        public void InsertDetail(int id_s, int id_a, string name, string articul, string prod, string category, float price)
         {
-            string query = $"INSERT INTO Деталь VALUES ({id_s},  N'{name}', N'{articul}',  N'{prod}',  N'{category}', {price.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)})";
+            string query = $"INSERT INTO Деталь VALUES ({id_s}, {id_a},  N'{name}', N'{articul}',  N'{prod}',  N'{category}', {price.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)})";
             Insert(query);
         }
 

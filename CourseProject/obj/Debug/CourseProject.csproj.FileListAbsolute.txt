@@ -210,3 +210,8 @@ C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\obj\Debug\RdlCompile
 C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\obj\Debug\RdlCompile.compiled
 C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\bin\Debug\Manual.chm
 C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\obj\Debug\CourseProject_Content.g.cs
+C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\bin\Debug\SqlServerTypes\x64\msvcr100.dll
+C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\bin\Debug\SqlServerTypes\x64\SqlServerSpatial120.dll
+C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\bin\Debug\SqlServerTypes\x86\msvcr100.dll
+C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\bin\Debug\SqlServerTypes\x86\SqlServerSpatial120.dll
+C:\Users\andro\Documents\GitHub\CourseProject\CourseProject\bin\Debug\Microsoft.SqlServer.Types.dll
